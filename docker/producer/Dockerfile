@@ -19,14 +19,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Set working directory
 WORKDIR /app
 
-# Copy dependency files
+# Copy project files
 COPY pyproject.toml ./
+COPY src/ ./src/
 
 # Install dependencies
 RUN pip install --no-cache-dir .
-
-# Copy source code
-COPY src/ ./src/
 
 # Change ownership to non-root user
 RUN chown -R appuser:appuser /app
