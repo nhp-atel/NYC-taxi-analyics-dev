@@ -4,7 +4,7 @@ from datetime import datetime
 from hashlib import sha256
 from typing import Any
 
-from pydantic import BaseModel, Field, computed_field, model_validator
+from pydantic import BaseModel, Field, computed_field
 
 
 class TripEventRaw(BaseModel):

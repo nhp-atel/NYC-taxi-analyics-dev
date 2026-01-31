@@ -1,12 +1,12 @@
 """API schemas."""
 
 from src.api.schemas.responses import (
+    DailyStatsResponse,
+    ErrorResponse,
     HealthResponse,
     ReadinessResponse,
-    ZoneStatsResponse,
-    DailyStatsResponse,
     TopZone,
-    ErrorResponse,
+    ZoneStatsResponse,
 )
 
 __all__ = [

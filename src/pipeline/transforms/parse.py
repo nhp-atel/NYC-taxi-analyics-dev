@@ -2,7 +2,6 @@
 
 import json
 from datetime import datetime
-from typing import Any
 
 import apache_beam as beam
 from apache_beam import pvalue

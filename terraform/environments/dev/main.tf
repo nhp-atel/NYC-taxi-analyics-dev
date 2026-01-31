@@ -31,7 +31,7 @@ module "iam" {
 module "pubsub" {
   source = "../../modules/pubsub"
 
-  project_id              = var.project_id
+  project_id               = var.project_id
   producer_service_account = module.iam.producer_service_account_email
   dataflow_service_account = module.iam.dataflow_service_account_email
 

@@ -6,7 +6,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Query
 
 from src.api.config import APISettings, get_settings
-from src.api.schemas import ZoneStatsResponse, ErrorResponse
+from src.api.schemas import ErrorResponse, ZoneStatsResponse
 from src.api.services.bigquery_service import BigQueryService
 
 router = APIRouter(prefix="/api/v1/zones", tags=["zones"])

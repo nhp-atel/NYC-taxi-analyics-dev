@@ -1,10 +1,10 @@
 """Deduplication transform for trip events."""
 
-from typing import Iterable
+from collections.abc import Iterable
 
 import apache_beam as beam
 from apache_beam import window
-from apache_beam.transforms.trigger import AccumulationMode, AfterWatermark, AfterProcessingTime
+from apache_beam.transforms.trigger import AccumulationMode, AfterProcessingTime, AfterWatermark
 from apache_beam.utils.timestamp import Duration
 
 from src.pipeline.transforms.validate import ValidatedEvent

@@ -1,13 +1,13 @@
 """Tests for the FastAPI application."""
 
-from datetime import date, datetime
+import datetime as dt
 from unittest.mock import MagicMock, patch
 
 import pytest
 from fastapi.testclient import TestClient
 
-from src.api.main import app
 from src.api.config import APISettings
+from src.api.main import app
 
 
 @pytest.fixture
@@ -74,7 +74,7 @@ class TestZoneStatsEndpoint:
         """Should return zone stats for valid request."""
         mock_data = {
             "zone_id": 132,
-            "date": date(2024, 1, 15),
+            "date": dt.date(2024, 1, 15),
             "trip_count": 1234,
             "total_passengers": 2500,
             "total_distance": 5500.0,
@@ -124,7 +124,7 @@ class TestDailyStatsEndpoint:
     def test_daily_stats_success(self, client):
         """Should return daily stats for valid request."""
         mock_data = {
-            "date": date(2024, 1, 15),
+            "date": dt.date(2024, 1, 15),
             "total_trips": 456789,
             "total_revenue": 5000000.0,
             "total_passengers": 800000,
@@ -169,7 +169,7 @@ class TestResponseSchemas:
 
         data = ZoneStatsResponse(
             zone_id=132,
-            date=date(2024, 1, 15),
+            date=dt.date(2024, 1, 15),
             trip_count=1234,
             total_passengers=2500,
             total_distance=5500.0,
@@ -189,7 +189,7 @@ class TestResponseSchemas:
         from src.api.schemas import DailyStatsResponse, TopZone
 
         data = DailyStatsResponse(
-            date=date(2024, 1, 15),
+            date=dt.date(2024, 1, 15),
             total_trips=456789,
             total_revenue=5000000.0,
             total_passengers=800000,

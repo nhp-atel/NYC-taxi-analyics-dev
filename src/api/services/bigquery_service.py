@@ -1,6 +1,6 @@
 """BigQuery service for data access."""
 
-from datetime import date, datetime
+from datetime import date
 from functools import lru_cache
 from typing import Any
 
@@ -219,7 +219,7 @@ class BigQueryService:
         ]
 
 
-@lru_cache()
+@lru_cache
 def get_bigquery_service(settings: APISettings) -> BigQueryService:
     """Get cached BigQuery service instance."""
     return BigQueryService(settings)

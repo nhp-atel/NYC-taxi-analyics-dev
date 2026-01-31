@@ -5,7 +5,6 @@ from apache_beam.io.gcp.bigquery import BigQueryDisposition, WriteToBigQuery
 
 from src.pipeline.transforms.validate import ValidatedEvent
 
-
 # BigQuery schema for clean_trips table
 CLEAN_TRIPS_SCHEMA = {
     "fields": [

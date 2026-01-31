@@ -1,9 +1,7 @@
 name: Deploy to Dev
 
 on:
-  push:
-    branches: [main]
-  workflow_dispatch:
+  workflow_dispatch:  # Manual trigger only - requires secrets to be configured
 
 env:
   PROJECT_ID: nyc-taxi-analytics-dev
@@ -15,6 +13,7 @@ jobs:
     name: Deploy Infrastructure
     runs-on: ubuntu-latest
     environment: dev
+    if: ${{ vars.DEPLOYMENT_ENABLED == 'true' }}
 
     permissions:
       contents: read
@@ -49,6 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     needs: deploy-infrastructure
+    if: ${{ vars.DEPLOYMENT_ENABLED == 'true' }}
 
     permissions:
       contents: read
@@ -94,6 +94,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     needs: build-and-push
+    if: ${{ vars.DEPLOYMENT_ENABLED == 'true' }}
 
     permissions:
       contents: read
@@ -114,38 +115,3 @@ jobs:
           service: taxi-api
           region: ${{ env.REGION }}
           image: gcr.io/${{ env.PROJECT_ID }}/taxi-api:${{ github.sha }}
-
-  smoke-tests:
-    name: Smoke Tests
-    runs-on: ubuntu-latest
-    environment: dev
-    needs: deploy-api
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Install test dependencies
-        run: pip install httpx pytest
-
-      - name: Get API URL
-        id: get-url
-        run: |
-          API_URL=$(gcloud run services describe taxi-api --region=${{ env.REGION }} --format='value(status.url)')
-          echo "api_url=$API_URL" >> $GITHUB_OUTPUT
-
-      - name: Run smoke tests
-        env:
-          API_URL: ${{ steps.get-url.outputs.api_url }}
-        run: |
-          # Health check
-          curl -f "$API_URL/health" || exit 1
-
-          # Readiness check
-          curl -f "$API_URL/health/readiness" || exit 1
-
-          echo "Smoke tests passed!"

@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from src.api.config import get_settings
-from src.api.routers import health_router, zones_router, stats_router
+from src.api.routers import health_router, stats_router, zones_router
 
 # Configure logging
 logging.basicConfig(

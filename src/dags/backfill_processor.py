@@ -8,9 +8,6 @@ from pathlib import Path
 
 from airflow.decorators import dag, task
 from airflow.models import Variable
-from airflow.providers.google.cloud.operators.bigquery import (
-    BigQueryInsertJobOperator,
-)
 
 # Configuration
 PROJECT_ID = Variable.get("PROJECT_ID", default_var="nyc-taxi-analytics-dev")
@@ -111,8 +108,8 @@ def backfill_processor():
     )
 
     # Process each date (using dynamic task mapping)
-    zone_stats_results = process_zone_stats.expand(date=dates)
-    hourly_patterns_results = process_hourly_patterns.expand(date=dates)
+    process_zone_stats.expand(date=dates)
+    process_hourly_patterns.expand(date=dates)
 
 
 # Instantiate the DAG

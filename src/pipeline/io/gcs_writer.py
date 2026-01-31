@@ -1,6 +1,5 @@
 """GCS writer for raw trip events."""
 
-import json
 
 import apache_beam as beam
 from apache_beam.io import WriteToText

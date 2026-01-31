@@ -5,12 +5,12 @@ from datetime import datetime
 
 import pytest
 
+from src.pipeline.transforms.validate import ValidatedEvent
+
 # Note: These tests use direct function calls rather than TestPipeline
 # for simplicity. Integration tests would use the full pipeline.
-
 from src.shared.schemas import TripEvent, TripEventRaw
 from src.shared.validators import validate_trip_event
-from src.pipeline.transforms.validate import ValidatedEvent
 
 
 def make_trip_event(**kwargs) -> TripEvent:
@@ -68,9 +68,11 @@ class TestParseTransform:
 
     def test_parse_missing_fields(self):
         """Should fail on missing required fields."""
+        from pydantic import ValidationError
+
         data = {"vendor_id": 1}  # Missing required fields
 
-        with pytest.raises(Exception):
+        with pytest.raises(ValidationError):
             TripEvent.model_validate(data)
 
 

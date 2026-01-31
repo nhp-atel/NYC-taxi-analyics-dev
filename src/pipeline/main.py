@@ -7,10 +7,10 @@ import apache_beam as beam
 from apache_beam.io import ReadFromPubSub, WriteToPubSub
 from apache_beam.options.pipeline_options import PipelineOptions, SetupOptions
 
-from src.pipeline.options import TaxiPipelineOptions
-from src.pipeline.transforms import ParseTripEvent, ValidateTripEvent, DeduplicateByTripId
-from src.pipeline.transforms.validate import FilterValid, FilterInvalid
 from src.pipeline.io import WriteToBigQueryClean, WriteToGCSRaw
+from src.pipeline.options import TaxiPipelineOptions
+from src.pipeline.transforms import DeduplicateByTripId, ParseTripEvent, ValidateTripEvent
+from src.pipeline.transforms.validate import FilterInvalid, FilterValid
 
 
 def run(argv=None, save_main_session=True):
@@ -43,7 +43,7 @@ def run(argv=None, save_main_session=True):
         parsed = raw_messages | "Parse" >> ParseTripEvent()
 
         # Route parse errors to DLQ
-        parse_errors = (
+        _ = (
             parsed[ParseTripEvent.DLQ_TAG]
             | "FormatParseErrors" >> beam.Map(lambda x: json.dumps(x).encode("utf-8"))
             | "DLQParseErrors" >> WriteToPubSub(topic=taxi_options.dlq_topic)
@@ -57,7 +57,7 @@ def run(argv=None, save_main_session=True):
         invalid_events = validated | "FilterInvalid" >> FilterInvalid()
 
         # Route invalid events to DLQ
-        invalid_to_dlq = (
+        _ = (
             invalid_events
             | "FormatInvalidEvents" >> beam.Map(
                 lambda ve: json.dumps({
@@ -79,13 +79,13 @@ def run(argv=None, save_main_session=True):
         )
 
         # Write to BigQuery
-        bq_write = deduped | "WriteToBigQuery" >> WriteToBigQueryClean(
+        _ = deduped | "WriteToBigQuery" >> WriteToBigQueryClean(
             table=taxi_options.output_table
         )
 
         # Optionally write raw events to GCS
         if taxi_options.raw_output_path:
-            gcs_write = deduped | "WriteToGCS" >> WriteToGCSRaw(
+            _ = deduped | "WriteToGCS" >> WriteToGCSRaw(
                 output_path=taxi_options.raw_output_path
             )
 

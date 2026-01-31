@@ -1,6 +1,6 @@
 """Pydantic response models for the API."""
 
-from datetime import date, datetime
+import datetime as dt
 
 from pydantic import BaseModel, Field
 
@@ -16,14 +16,14 @@ class ReadinessResponse(BaseModel):
 
     status: str = Field(description="Readiness status")
     bigquery: str = Field(description="BigQuery connection status")
-    timestamp: datetime = Field(description="Check timestamp")
+    timestamp: dt.datetime = Field(description="Check timestamp")
 
 
 class ZoneStatsResponse(BaseModel):
     """Zone statistics response."""
 
     zone_id: int = Field(description="NYC TLC zone ID")
-    date: date = Field(description="Statistics date")
+    date: dt.date = Field(description="Statistics date")
     trip_count: int = Field(description="Total trips from this zone")
     total_passengers: int | None = Field(description="Total passengers")
     total_distance: float | None = Field(description="Total trip distance in miles")
@@ -46,7 +46,7 @@ class TopZone(BaseModel):
 class DailyStatsResponse(BaseModel):
     """Daily statistics response."""
 
-    date: date = Field(description="Statistics date")
+    date: dt.date = Field(description="Statistics date")
     total_trips: int = Field(description="Total trips for the day")
     total_revenue: float | None = Field(description="Total revenue")
     total_passengers: int | None = Field(description="Total passengers")
@@ -66,7 +66,7 @@ class HourlyPattern(BaseModel):
 class HourlyPatternsResponse(BaseModel):
     """Hourly patterns response."""
 
-    date: date = Field(description="Statistics date")
+    date: dt.date = Field(description="Statistics date")
     zone_id: int | None = Field(description="Zone ID (null for all zones)")
     patterns: list[HourlyPattern] = Field(description="Hourly patterns")
 

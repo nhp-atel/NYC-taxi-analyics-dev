@@ -2,8 +2,6 @@
 
 import time
 
-import pytest
-
 from src.producer.rate_limiter import RateLimiter
 
 

@@ -1,7 +1,7 @@
 """Load trip data from parquet files."""
 
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Iterator
 
 import pandas as pd
 import pyarrow.parquet as pq

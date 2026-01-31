@@ -1,8 +1,6 @@
 """Tests for trip event validators."""
 
-from datetime import datetime, timedelta
-
-import pytest
+from datetime import datetime
 
 from src.shared.schemas import TripEvent, TripEventRaw
 from src.shared.validators import validate_trip_event

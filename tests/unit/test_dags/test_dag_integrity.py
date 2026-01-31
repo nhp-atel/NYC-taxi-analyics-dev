@@ -1,10 +1,7 @@
 """Tests for DAG integrity."""
 
-import os
 import sys
 from pathlib import Path
-
-import pytest
 
 # Add the dags directory to path for imports
 DAGS_DIR = Path(__file__).parent.parent.parent.parent / "src" / "dags"

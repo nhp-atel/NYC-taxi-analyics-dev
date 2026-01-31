@@ -1,7 +1,7 @@
 """Pub/Sub publisher with batching and rate limiting."""
 
+from collections.abc import Callable
 from concurrent import futures
-from typing import Callable
 
 from google.cloud import pubsub_v1
 

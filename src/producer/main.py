@@ -2,14 +2,13 @@
 
 import sys
 import time
-from typing import Optional
 
 import typer
 from rich.console import Console
-from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TaskProgressColumn
+from rich.progress import BarColumn, Progress, SpinnerColumn, TaskProgressColumn, TextColumn
 
 from src.producer.config import ProducerSettings
-from src.producer.data_loader import load_parquet_file, iter_trip_events
+from src.producer.data_loader import iter_trip_events, load_parquet_file
 from src.producer.publisher import DryRunPublisher, TripEventPublisher
 from src.producer.transformer import transform_event
 
@@ -43,7 +42,7 @@ def main(
         "-r",
         help="Messages per second",
     ),
-    limit: Optional[int] = typer.Option(
+    limit: int | None = typer.Option(
         None,
         "--limit",
         "-l",
@@ -83,7 +82,7 @@ def main(
     settings.dry_run = dry_run
     settings.verbose = verbose
 
-    console.print(f"[bold]NYC Taxi Event Producer[/bold]")
+    console.print("[bold]NYC Taxi Event Producer[/bold]")
     console.print(f"Source: {settings.source_path}")
     console.print(f"Topic: {settings.topic_path}")
     console.print(f"Rate: {settings.rate_limit} msg/s")
