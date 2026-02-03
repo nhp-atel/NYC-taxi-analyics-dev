@@ -1,4 +1,5 @@
 # Cloud Run service for the API
+# Uses a placeholder image initially - update after building the real image
 resource "google_cloud_run_v2_service" "api" {
   name     = "taxi-api"
   location = var.region
@@ -13,7 +14,8 @@ resource "google_cloud_run_v2_service" "api" {
     }
 
     containers {
-      image = "gcr.io/${var.project_id}/taxi-api:latest"
+      # Use placeholder image for initial deploy, then update via CI/CD
+      image = var.api_image != "" ? var.api_image : "us-docker.pkg.dev/cloudrun/container/hello"
 
       ports {
         container_port = 8000
