@@ -80,11 +80,12 @@ producer-publish:
 pipeline:
 	$(PYTHON) -m src.pipeline.main \
 		--runner DirectRunner \
+		--streaming \
 		--project $(PROJECT_ID) \
 		--input-subscription projects/$(PROJECT_ID)/subscriptions/dataflow-subscription \
 		--output-table $(PROJECT_ID):nyc_taxi.clean_trips \
 		--dlq-topic projects/$(PROJECT_ID)/topics/trip-events-dlq \
-		--temp-location gs://$(PROJECT_ID)-temp/dataflow
+		--temp_location gs://$(PROJECT_ID)-temp/dataflow
 
 pipeline-dataflow:
 	$(PYTHON) -m src.pipeline.main \
