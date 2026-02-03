@@ -15,7 +15,7 @@ RUN groupadd --gid 1000 appuser && \
 WORKDIR /app
 
 # Copy project files
-COPY pyproject.toml ./
+COPY pyproject.toml README.md ./
 COPY src/ ./src/
 
 # Install dependencies
